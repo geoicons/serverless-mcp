@@ -1,5 +1,6 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import metadata from "./metadata.js";
+import { tools } from "./tools/index.js";
 
 let SHORT_DELAY = true;
 const LONG_DELAY_MS = 100;
@@ -15,7 +16,11 @@ const create = () => {
     }
   });
 
-  mcpServer.tool("ping", async () => {
+  for (const [name, { handler, inputSchema }] of Object.entries(tools)) {
+    mcpServer.registerTool(name, { inputSchema }, handler);
+  }
+
+  mcpServer.registerTool("ping", {}, async () => {
     const startTime = Date.now();
     SHORT_DELAY=!SHORT_DELAY;
 

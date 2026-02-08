@@ -3,8 +3,12 @@
   "author": "Anton Aleksandrov",
   "license": "UNLICENSED",
   "description": "A simple MCP Client",
+  "scripts": {
+    "build": "true"
+  },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.17.1",
+    "dotenv": "^16.4.5",
     "fetch-cookie": "^3.1.0"
   }
 }

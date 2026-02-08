@@ -1,19 +1,30 @@
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
+import dotenv from "dotenv";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+dotenv.config({ path: join(__dirname, ".env") });
+
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
 
-const ENDPOINT_URL = process.env.MCP_SERVER_ENDPOINT || 'http://localhost:3000/mcp';
-// Change to good_access_token for successful authorization when authorization is enabled
-const fake_token = 'bad_access_token'; 
+const ENDPOINT_URL = process.env.MCP_SERVER_ENDPOINT || "http://localhost:3000/mcp";
+const AUTHORIZATION_ENABLED = process.env.AUTHORIZATION_ENABLED === "true";
+const AUTH_TOKEN = process.env.MCP_AUTH_TOKEN || "good_access_token";
 
-console.log(`Connecting ENDPOINT_URL=${ENDPOINT_URL}`);
+console.log(`Connecting ENDPOINT_URL=${ENDPOINT_URL} authorizationEnabled=${AUTHORIZATION_ENABLED}`);
 
-const transport = new StreamableHTTPClientTransport(new URL(ENDPOINT_URL), {
-    requestInit: {
+const transportOptions = AUTHORIZATION_ENABLED
+  ? {
+      requestInit: {
         headers: {
-            'Authorization': `Bearer ${fake_token}`
-        }
+          Authorization: `Bearer ${AUTH_TOKEN}`,
+        },
+      },
     }
-});
+  : {};
+
+const transport = new StreamableHTTPClientTransport(new URL(ENDPOINT_URL), transportOptions);
 
 const client = new Client({
     name: "node-client",

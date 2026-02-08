@@ -11,6 +11,8 @@ const LAMBDA_ADAPTER_LAYER_ARN =
 export interface StatelessMcpStackProps extends cdk.StackProps {
   stage: string;
   managementApiKey: string;
+  /** When true, the /mcp route uses the token authorizer Lambda; when false, no auth (NONE). */
+  authorizationEnabled: boolean;
 }
 
 export class StatelessMcpStack extends cdk.Stack {
@@ -73,10 +75,19 @@ export class StatelessMcpStack extends cdk.Stack {
       proxy: true,
     });
 
-    // Use NONE for no auth. To enable the token authorizer: create TokenAuthorizer with api as scope,
-    // then use authorizationType: CUSTOM and authorizer: tokenAuthorizer on addMethod.
+    const tokenAuthorizer = props.authorizationEnabled
+      ? new apigateway.TokenAuthorizer(api, "McpAuthorizer", {
+          handler: authorizerLambda,
+          identitySource: apigateway.IdentitySource.header("Authorization"),
+          resultsCacheTtl: cdk.Duration.seconds(0),
+        })
+      : undefined;
+
     mcpResource.addMethod("ANY", integration, {
-      authorizationType: apigateway.AuthorizationType.NONE,
+      authorizationType: props.authorizationEnabled
+        ? apigateway.AuthorizationType.CUSTOM
+        : apigateway.AuthorizationType.NONE,
+      ...(tokenAuthorizer && { authorizer: tokenAuthorizer }),
     });
 
     this.mcpEndpoint = `${api.url}mcp`;
