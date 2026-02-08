@@ -4,6 +4,10 @@ const SAMPLE_OPPORTUNITIES = [
   { id: "3", title: "Support contract", status: "closed", clientId: "3" },
 ];
 
+/** Human-readable description for tools/list. When to use: user asks to list opportunities, see open/closed work, or what's in progress. */
+export const description =
+  "List all opportunities in the system.\n\nReturns: Array of opportunities with id, title, status (open | in_progress | closed), and clientId. Use clientId with get_client to see which client each opportunity belongs to.";
+
 export async function handler() {
   return {
     content: [
