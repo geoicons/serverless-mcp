@@ -2,7 +2,7 @@
   "type": "module",
   "version": "0.0.12",
   "author": "Anton Aleksandrov",
-  "license": "UNLICENSED",
+  "license": "CC-BY-NC-4.0",
   "description": "A sample stateless MCP Server running on AWS Lambda",
   "scripts": {
     "build": "true"

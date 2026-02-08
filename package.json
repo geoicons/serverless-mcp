@@ -1,7 +1,7 @@
 {
   "name": "serverless-mcp",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "CC-BY-NC-4.0",
   "version": "1.0.0",
   "description": "Stateless MCP Server on AWS Lambda",
   "scripts": {

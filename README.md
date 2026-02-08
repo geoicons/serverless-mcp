@@ -146,3 +146,7 @@ yarn destroy
 
 * [Intro](https://modelcontextprotocol.io/introduction)
 * [Protocol specification](https://modelcontextprotocol.io/specification/2025-03-26)
+
+## License
+
+This project is licensed under the **Creative Commons Attribution-NonCommercial 4.0 International License** (CC BY-NC 4.0). You may use it for **educational and non-commercial purposes** only. Commercial use is not permitted. See [LICENSE](LICENSE) for the full text.
