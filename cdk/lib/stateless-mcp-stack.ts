@@ -10,6 +10,7 @@ const LAMBDA_ADAPTER_LAYER_ARN =
 
 export interface StatelessMcpStackProps extends cdk.StackProps {
   stage: string;
+  managementApiKey: string;
 }
 
 export class StatelessMcpStack extends cdk.Stack {
@@ -29,6 +30,10 @@ export class StatelessMcpStack extends cdk.Stack {
       LAMBDA_ADAPTER_LAYER_ARN.replace("us-east-1", region)
     );
 
+    const authorizerEnvironment = {
+      MANAGEMENT_API_KEY: props.managementApiKey,
+    };
+
     // --- Authorizer Lambda ---
     const authorizerLambda = new lambda.Function(this, "Authorizer", {
       functionName: append_prefix("authorizer", prefix),
@@ -37,6 +42,7 @@ export class StatelessMcpStack extends cdk.Stack {
       code: lambda.Code.fromAsset(path.join(__dirname, "../../src/authorizer")),
       memorySize: 256,
       timeout: cdk.Duration.seconds(5),
+      environment: authorizerEnvironment,
     });
 
     // --- MCP Server Lambda ---

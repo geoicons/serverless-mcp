@@ -5,7 +5,7 @@ export const handler = async (event) => {
         return generatePolicy('Deny', event.methodArn);
     }
 
-    if (authToken === 'Bearer good_access_token') {
+    if (authToken === process.env.MANAGEMENT_API_KEY) {
         return generatePolicy('Allow', event.methodArn);
     }
 
