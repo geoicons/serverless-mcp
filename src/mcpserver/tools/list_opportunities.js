@@ -4,11 +4,6 @@ const SAMPLE_OPPORTUNITIES = [
   { id: "3", title: "Support contract", status: "closed", clientId: "3" },
 ];
 
-export const inputSchema = {
-  type: "object",
-  properties: {},
-};
-
 export async function handler() {
   return {
     content: [

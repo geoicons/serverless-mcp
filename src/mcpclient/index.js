@@ -32,16 +32,22 @@ const client = new Client({
 })
 
 await client.connect(transport);
-console.log('connected');
+console.log("connected");
 
 const { tools } = await client.listTools();
-console.log(`listTools response:`, tools);
+console.log("listTools response:", tools);
 
-for (const tool of tools) {
-  const name = tool.name;
+async function runTest(name, args = {}) {
   console.log(`\ncallTool:${name}`);
-  const result = await client.callTool({ name, arguments: {} });
+  const result = await client.callTool({ name, arguments: args });
   console.log(`callTool:${name} response:`, result);
+  return result;
 }
+
+await runTest("ping", {});
+await runTest("list_clients", {});
+await runTest("list_opportunities", {});
+await runTest("get_client", { clientId: "1" });
+await runTest("get_client", { clientId: "99" });
 
 await client.close();

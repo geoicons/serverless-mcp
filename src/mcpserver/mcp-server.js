@@ -17,7 +17,8 @@ const create = () => {
   });
 
   for (const [name, { handler, inputSchema }] of Object.entries(tools)) {
-    mcpServer.registerTool(name, { inputSchema }, handler);
+    const config = inputSchema ? { inputSchema } : {};
+    mcpServer.registerTool(name, config, handler);
   }
 
   mcpServer.registerTool("ping", {}, async () => {
