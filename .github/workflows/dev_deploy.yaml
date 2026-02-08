@@ -1,0 +1,14 @@
+name: "Development Deployment"
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    uses: ./.github/workflows/mcp_deploy_base.yaml
+    with:
+      environment: "dev"
+      aws-region: "ap-southeast-2"

@@ -1,0 +1,50 @@
+on:
+  workflow_call:
+    inputs:
+      environment:
+        type: string
+        required: true
+      aws-region:
+        type: string
+        required: true
+
+defaults:
+  run:
+    shell: bash
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    name: "Deploy to AWS"
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "yarn"
+
+      - name: Install all dependencies
+        run: yarn installall
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ inputs.aws-region }}
+
+      - name: Build all components
+        run: yarn buildall
+
+      - name: CDK deploy
+        run: yarn deploy --require-approval never --concurrency 2
+        env:
+          STAGE: ${{ inputs.environment }}
+          REGION: ${{ inputs.aws-region }}

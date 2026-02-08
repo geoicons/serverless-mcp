@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.append_prefix = exports.generate_composite_string = void 0;
+function generate_composite_string(input, stack_name, separator = "") {
+    return input + separator + stack_name;
+}
+exports.generate_composite_string = generate_composite_string;
+function append_prefix(input, prefix) {
+    return prefix + "-" + input;
+}
+exports.append_prefix = append_prefix;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoidXRpbGl0aWVzLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsidXRpbGl0aWVzLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztBQUFBLFNBQWdCLHlCQUF5QixDQUN2QyxLQUFhLEVBQ2IsVUFBa0IsRUFDbEIsWUFBb0IsRUFBRTtJQUV0QixPQUFPLEtBQUssR0FBRyxTQUFTLEdBQUcsVUFBVSxDQUFDO0FBQ3hDLENBQUM7QUFORCw4REFNQztBQUVELFNBQWdCLGFBQWEsQ0FBQyxLQUFhLEVBQUUsTUFBYztJQUN6RCxPQUFPLE1BQU0sR0FBRyxHQUFHLEdBQUcsS0FBSyxDQUFDO0FBQzlCLENBQUM7QUFGRCxzQ0FFQyIsInNvdXJjZXNDb250ZW50IjpbImV4cG9ydCBmdW5jdGlvbiBnZW5lcmF0ZV9jb21wb3NpdGVfc3RyaW5nKFxuICBpbnB1dDogc3RyaW5nLFxuICBzdGFja19uYW1lOiBzdHJpbmcsXG4gIHNlcGFyYXRvcjogc3RyaW5nID0gXCJcIlxuKTogc3RyaW5nIHtcbiAgcmV0dXJuIGlucHV0ICsgc2VwYXJhdG9yICsgc3RhY2tfbmFtZTtcbn1cblxuZXhwb3J0IGZ1bmN0aW9uIGFwcGVuZF9wcmVmaXgoaW5wdXQ6IHN0cmluZywgcHJlZml4OiBzdHJpbmcpOiBzdHJpbmcge1xuICByZXR1cm4gcHJlZml4ICsgXCItXCIgKyBpbnB1dDtcbn1cbiJdfQ==

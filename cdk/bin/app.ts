@@ -1,12 +1,19 @@
 #!/usr/bin/env node
-import * as cdk from 'aws-cdk-lib';
-import { StatelessMcpStack } from '../lib/stateless-mcp-stack';
+import * as cdk from "aws-cdk-lib";
+import { StatelessMcpStack } from "../lib/stateless-mcp-stack";
+
+const STAGE = process.env.STAGE || "dev";
+const REGION = process.env.REGION || process.env.CDK_DEFAULT_REGION || "ap-southeast-2";
+
+const STACK_NAME = `mcp-${STAGE}-stack`;
 
 const app = new cdk.App();
-new StatelessMcpStack(app, 'StatelessMcpStack', {
+new StatelessMcpStack(app, STACK_NAME, {
   env: {
     account: process.env.CDK_DEFAULT_ACCOUNT,
-    region: process.env.CDK_DEFAULT_REGION ?? 'us-east-1',
+    region: REGION,
   },
-  description: 'Stateless MCP Server on AWS Lambda with API Gateway',
+  description: "Stateless MCP Server on AWS Lambda with API Gateway",
+  stage: STAGE,
 });
+app.synth();

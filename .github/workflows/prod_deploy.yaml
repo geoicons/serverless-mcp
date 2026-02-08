@@ -1,0 +1,14 @@
+name: "Production Deployment"
+
+on:
+  push:
+    branches:
+      - prod
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    uses: ./.github/workflows/mcp_deploy_base.yaml
+    with:
+      environment: "prod"
+      aws-region: "ap-southeast-2"

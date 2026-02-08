@@ -1,0 +1,14 @@
+name: "QAS Deployment"
+
+on:
+  push:
+    branches:
+      - qas
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    uses: ./.github/workflows/mcp_deploy_base.yaml
+    with:
+      environment: "qas"
+      aws-region: "ap-southeast-2"

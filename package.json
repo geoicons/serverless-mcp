@@ -1,0 +1,19 @@
+{
+  "name": "serverless-mcp",
+  "private": true,
+  "license": "UNLICENSED",
+  "version": "1.0.0",
+  "description": "Stateless MCP Server on AWS Lambda",
+  "scripts": {
+    "install_authorizer": "yarn --cwd src/authorizer install",
+    "install_mcpserver": "yarn --cwd src/mcpserver install",
+    "install_cdk": "yarn --cwd cdk install",
+    "installall": "yarn install && yarn install_authorizer && yarn install_mcpserver && yarn install_cdk",
+    "build_authorizer": "yarn --cwd src/authorizer build",
+    "build_mcpserver": "yarn --cwd src/mcpserver build",
+    "build_cdk": "yarn --cwd cdk build",
+    "buildall": "yarn build_cdk && yarn build_authorizer && yarn build_mcpserver",
+    "synth": "yarn --cwd cdk cdk synth",
+    "deploy": "yarn --cwd cdk cdk deploy"
+  }
+}

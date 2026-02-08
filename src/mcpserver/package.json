@@ -2,8 +2,11 @@
   "type": "module",
   "version": "0.0.12",
   "author": "Anton Aleksandrov",
-  "license": "Apache-2.0",
+  "license": "UNLICENSED",
   "description": "A sample stateless MCP Server running on AWS Lambda",
+  "scripts": {
+    "build": "true"
+  },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.17.1",
     "express": "^5.1.0",

@@ -21,8 +21,16 @@ cd serverless-mcp
 
 ### Install dependencies
 
+From repo root (installs authorizer, mcpserver, and CDK):
+
 ```bash
-(cd src/mcpclient && yarn install)
+yarn installall
+```
+
+Or per package:
+
+```bash
+(cd src/authorizer && yarn install)
 (cd src/mcpserver && yarn install)
 (cd cdk && yarn install)
 ```
@@ -41,14 +49,15 @@ node src/mcpclient/index.js
 
 ### Deploy to AWS with CDK
 
-Install Lambda dependencies and deploy:
+From repo root:
 
 ```bash
-(cd src/authorizer && yarn install)
-(cd src/mcpserver && yarn install)
-cd cdk
+yarn installall
+yarn buildall
 yarn deploy
 ```
+
+Or from the CDK package: `(cd cdk && yarn deploy)` after installing deps.
 
 After deployment, CDK will print the MCP endpoint. Export it for the client:
 
@@ -60,19 +69,26 @@ It may take about a minute for the API Gateway endpoint to become available.
 
 ### Deploy via GitHub Actions (OIDC)
 
-The `Deploy` workflow deploys the CDK stack to the **dev** environment on push to `main` or via manual run. It uses GitHub OIDC to assume an IAM role (no long-lived AWS keys).
+Deployment uses reusable workflows and branch-based promotion:
+
+| Trigger | Workflow | Environment |
+|--------|----------|-------------|
+| PR → `main` | **Dev Check** | Runs CDK synth only (no deploy) |
+| Push to `main` | **Development Deployment** | `dev` |
+| Push to `qas` | **QAS Deployment** | `qas` |
+| Push to `prod` | **Production Deployment** | `prod` |
+
+All deploy workflows support manual run via **workflow_dispatch**. Auth uses GitHub OIDC (no long-lived AWS keys).
 
 **Setup:**
 
-1. **GitHub:** Create an environment named `dev` (Settings → Environments). In that environment, add:
-   - **Secret:** `AWS_ROLE_ARN` = ARN of the IAM role that GitHub Actions will assume (e.g. `arn:aws:iam::123456789012:role/github-oidc-deploy`).
-   - **Variable (optional):** `AWS_REGION` (default `us-east-1`).
+1. **GitHub:** For each environment (`dev`, `qas`, `prod`) you use, create it under Settings → Environments and add:
+   - **Secret:** `AWS_ROLE_ARN` = ARN of the IAM role GitHub Actions will assume (e.g. `arn:aws:iam::123456789012:role/github-oidc-deploy`).
+   - **Variable (optional):** `AWS_REGION` (default in workflows is `us-east-1`).
 
-2. **AWS:** Create an IAM role for OIDC:
-   - Trust policy: allow `sts:AssumeRoleWithWebIdentity` from your GitHub OIDC provider (e.g. `token.actions.githubusercontent.com`) with condition on your repo and (optionally) branch/environment.
-   - Permissions: enough to deploy the stack (e.g. CloudFormation, Lambda, API Gateway, IAM, S3 for assets). You can bootstrap CDK once locally and use the same account/region, then grant the role the policy CDK generates for the deployment role.
-
-After that, pushes to `main` (or running the workflow manually) will deploy to dev.
+2. **AWS:** Create an IAM role for OIDC per environment (or one role with conditions):
+   - Trust policy: allow `sts:AssumeRoleWithWebIdentity` from your GitHub OIDC provider with conditions on repo and (optionally) branch/environment.
+   - Permissions: enough to deploy the stack (CloudFormation, Lambda, API Gateway, IAM, S3 for assets). Bootstrap CDK once locally and grant the role the policy CDK generates for the deployment role.
 
 ### Test your remote MCP Server with the client
 

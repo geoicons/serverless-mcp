@@ -1,7 +1,7 @@
 {
   "type": "module",
   "author": "Anton Aleksandrov",
-  "license": "Apache-2.0",
+  "license": "UNLICENSED",
   "description": "A simple MCP Client",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.17.1",

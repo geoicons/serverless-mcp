@@ -1,6 +1,7 @@
 {
   "name": "serverless-mcp-cdk",
   "version": "1.0.0",
+  "license": "UNLICENSED",
   "bin": {
     "cdk": "bin/app.js"
   },
