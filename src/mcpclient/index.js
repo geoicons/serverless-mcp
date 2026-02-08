@@ -34,14 +34,14 @@ const client = new Client({
 await client.connect(transport);
 console.log('connected');
 
-const tools = await client.listTools();
-console.log(`listTools response: `, tools);
+const { tools } = await client.listTools();
+console.log(`listTools response:`, tools);
 
-for (let i = 0; i < 2; i++) {
-    let result = await client.callTool({
-        name: "ping"
-    });
-    console.log(`callTool:ping response: `, result);
+for (const tool of tools) {
+  const name = tool.name;
+  console.log(`\ncallTool:${name}`);
+  const result = await client.callTool({ name, arguments: {} });
+  console.log(`callTool:${name} response:`, result);
 }
 
 await client.close();
